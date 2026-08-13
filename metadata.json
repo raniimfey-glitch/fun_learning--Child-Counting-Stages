@@ -1,0 +1,6 @@
+{
+  "name": "تعلّم الأعداد 🦋 رنيم فاي",
+  "description": "تطبيق تعليمي تفاعلي لتعلم الأعداد من 1 إلى 10 ومن 10 إلى 100 بصوت عالي الدقة وسلامة في النطق للأطفال.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

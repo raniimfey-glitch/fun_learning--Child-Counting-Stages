@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-20px) rotate(0deg) scale(0.8);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(720deg) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.confetti-item {
+  position: fixed;
+  top: -30px;
+  z-index: 9999;
+  pointer-events: none;
+  user-select: none;
+  font-size: 1.6rem;
+  animation: confettiFall linear forwards;
+}
+
+/* Butterfly Wing Flapping Animations */
+@keyframes flapR {
+  0%, 100% {
+    transform: scaleX(1) translateY(0);
+  }
+  50% {
+    transform: scaleX(0.42) translateY(-4px);
+  }
+}
+
+@keyframes flapL {
+  0%, 100% {
+    transform: scaleX(1) translateY(0);
+  }
+  50% {
+    transform: scaleX(0.42) translateY(-4px);
+  }
+}
+
+@keyframes flapR2 {
+  0%, 100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.45);
+  }
+}
+
+@keyframes flapL2 {
+  0%, 100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.45);
+  }
+}
+
+.wing-flap-r {
+  animation: flapR 1.4s ease-in-out infinite;
+}
+
+.wing-flap-l {
+  animation: flapL 1.4s ease-in-out infinite;
+}
+
+.wing-flap-r2 {
+  animation: flapR2 1.4s ease-in-out infinite;
+}
+
+.wing-flap-l2 {
+  animation: flapL2 1.4s ease-in-out infinite;
+}
+
