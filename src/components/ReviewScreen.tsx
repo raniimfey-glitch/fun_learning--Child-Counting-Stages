@@ -17,9 +17,9 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
     <div className="w-full max-w-md mx-auto p-3 animate-fade-in">
       <div className="bg-white/95 backdrop-blur-xl rounded-[32px] p-5 shadow-2xl border-4 border-amber-300 text-center">
         <div className="text-4xl mb-2">📝</div>
-        <h2 className="text-xl font-black text-pink-600 mb-1">هيا نراجع معاً!</h2>
+        <h2 className="text-xl font-black text-pink-600 mb-1">هَيَّا نُرَاجِعْ مَعًا!</h2>
         <p className="text-xs font-bold text-slate-600 mb-4">
-          هذه الأعداد تحتاج تدريباً إضافياً لتصبح بطلاً فيها 💪
+          هَذِهِ الأَعْدَادُ تَحْتَاجُ إِلَى مَزِيدٍ مِنَ التَّدْرِيبِ لِتُتْقِنَهَا 💪
         </p>
 
         <div className="space-y-3 mb-5 max-h-64 overflow-y-auto pr-1">

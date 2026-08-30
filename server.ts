@@ -46,13 +46,18 @@ async function startServer() {
         });
       }
 
-      // Prompt tuned for precise Arabic pronunciation with diacritics
+      // Prompt tuned for precise Classical Arabic pronunciation and natural single nunation (tanween)
       const response = await client.models.generateContent({
         model: "gemini-2.5-flash",
         contents: [{ parts: [{ text: text.trim() }] }],
         config: {
           systemInstruction:
-            "You are a native Arabic speech synthesizer for children. Pronounce ONLY the exact provided Arabic text out loud with clear classical Arabic diacritics (tashkeel). Do NOT add any introductions, explanations, or extra words in English or Arabic.",
+            "You are a native Classical Arabic (Fusha) speech synthesizer and phonetician for children's educational applications. Pronounce the provided Arabic text with pristine diction, correct short vowels (tashkeel), and natural intonation.\n" +
+            "CRITICAL PRONUNCIATION MANDATES:\n" +
+            "1. NO DOUBLE NOON: When pronouncing Tanween (fat-h, damm, or kasr), pronounce it strictly as a single, clean nunation sound (-an, -un, -in). NEVER double the noon sound or say 'nan-na' or repeat syllables.\n" +
+            "2. Ensure accurate articulation of Arabic phonemes: ث, ذ, ظ, ح, خ, ع, غ, ق, ص, ض, ط.\n" +
+            "3. Honor Shaddah and short vowels (Fatha, Damma, Kasra) accurately.\n" +
+            "4. Output ONLY the clear spoken audio of the exact input words without adding any introductions, explanations, or commentary.",
           responseModalities: [Modality.AUDIO],
           speechConfig: {
             voiceConfig: {

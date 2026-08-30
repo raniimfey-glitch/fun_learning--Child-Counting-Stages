@@ -1,0 +1,104 @@
+{
+  "name": "تعلّم الأعداد 🦋 رنيم فاي",
+  "short_name": "تعلّم الأعداد",
+  "description": "تطبيق تعليمي تفاعلي لتعلم الأعداد من 1 إلى 10 ومن 10 إلى 100 والمئات بصوت عالي الدقة وسلامة في النطق للأطفال.",
+  "id": "com.raneemfey.learnnumbers",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "window-controls-overlay"
+  ],
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": [
+    "education",
+    "kids",
+    "games"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "الأعداد من 1 إلى 10",
+      "short_name": "1-10",
+      "description": "تعلم الأعداد الأساسية من 1 إلى 10",
+      "url": "/?level=1",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "العشرات حتى 100",
+      "short_name": "العشرات",
+      "description": "تعلم العد بالعشرات من 10 إلى 100",
+      "url": "/?level=2",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "المئات حتى 1000",
+      "short_name": "المئات",
+      "description": "تعلم العد بالمئات من 100 إلى 1000",
+      "url": "/?level=3",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

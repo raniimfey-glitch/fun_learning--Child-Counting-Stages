@@ -79,6 +79,34 @@ function playAudioBuffer(buffer: AudioBuffer, rate = 1.0): Promise<void> {
   });
 }
 
+// Normalize and prepare Arabic text for pristine phonetic speech synthesis
+export function sanitizeArabicForSpeech(text: string, isNative = false): string {
+  if (!text) return '';
+
+  let sanitized = text
+    // Remove zero-width and invisible formatting characters
+    .replace(/[\u200B-\u200F\uFEFF\u202A-\u202E]/g, '')
+    // Fix erroneous diacritic combinations (e.g. hamza above with kasra)
+    .replace(/\u0623\u0650/g, '\u0625\u0650') // أِ -> إِ
+    .replace(/\u0625\u064E/g, '\u0623\u064E') // إَ -> أَ
+    // Remove duplicate identical consecutive diacritics
+    .replace(/([\u064B-\u065F])\1+/g, '$1')
+    // Standardize spacing around Arabic and Western punctuation
+    .replace(/\s*([،,:;.!?؟])\s*/g, '$1 ')
+    .trim();
+
+  // For native browser speech synthesis: optimize tanween fat-h to prevent double-noon glitch
+  if (isNative) {
+    // Standardize tanween fat-h on alif (ـًـا vs ـاً) so browser TTS engines pronounce a single nunation
+    sanitized = sanitized
+      // If a browser voice stutters on tanween fat-h followed by punctuation or word end:
+      .replace(/([\u0621-\u064A])\u064B\u0627/g, '$1\u064E\u0646\u0652') // Convert explicitly to single light noon sukoon if needed or preserve clean tashkeel
+      .replace(/([\u0621-\u064A])\u0627\u064B/g, '$1\u064E\u0646\u0652');
+  }
+
+  return sanitized;
+}
+
 // Speak using browser SpeechSynthesis with PRESERVED Tashkeel (Arabic diacritics)
 function speakNative(text: string, settings: AudioSettings): Promise<void> {
   return new Promise((resolve) => {
@@ -88,8 +116,10 @@ function speakNative(text: string, settings: AudioSettings): Promise<void> {
       return;
     }
 
+    const processedText = sanitizeArabicForSpeech(text, true);
+
     // Preserve Tashkeel so Arabic vowels are spoken correctly
-    const utterance = new SpeechSynthesisUtterance(text.trim());
+    const utterance = new SpeechSynthesisUtterance(processedText);
     utterance.lang = 'ar-SA';
     utterance.rate = settings.rate || 0.82;
     utterance.pitch = settings.voiceGender === 'female' ? 1.15 : 0.95;
@@ -129,6 +159,8 @@ export async function speakText(
   stopAllAudio();
   onStart?.();
 
+  const cleanText = sanitizeArabicForSpeech(text, false);
+
   // 1. Try Gemini AI Voice if engine is 'auto' or 'gemini'
   if (settings.engine === 'gemini' || settings.engine === 'auto') {
     try {
@@ -136,7 +168,7 @@ export async function speakText(
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          text,
+          text: cleanText,
           voice: settings.voiceGender === 'female' ? 'Kore' : 'Zephyr',
         }),
       });

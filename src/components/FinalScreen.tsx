@@ -33,7 +33,7 @@ export const FinalScreen: React.FC<FinalScreenProps> = ({ level, selectedChar, o
 
         <div className="text-5xl mb-2 animate-bounce">🦋🎉🦋</div>
         <h2 className="text-2xl font-black text-pink-600 mb-1">
-          {isGirl ? 'أَحْسَنْتِ ، مُمْتَازَةٌ ، رَائِعٌ يَا بَطَلَة! 🌟' : 'أَحْسَنْتَ ، مُمْتَازٌ يَا بَطَلْ! 🌟'}
+          {isGirl ? 'أَحْسَنْتِ! مُمْتَازَةٌ! رَائِعٌ يَا بَطَلَةُ! 🌟' : 'أَحْسَنْتَ! مُمْتَازٌ! رَائِعٌ يَا بَطَلُ! 🌟'}
         </h2>
         <p className="text-sm font-bold text-slate-600">
           {level === 1

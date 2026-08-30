@@ -65,7 +65,7 @@ export default function App() {
     setAudioSettings((prev) => ({ ...prev, voiceGender: newGender }));
     playButtonSound();
 
-    const greet = char === 'girl' ? 'أَهْلاً بِكِ يَا نَجْمَتِي!' : 'أَهْلاً بِكَ يَا قَمَرِي!';
+    const greet = char === 'girl' ? 'أَهْلًا بِكِ يَا نَجْمَتِي!' : 'أَهْلًا بِكَ يَا قَمَرِي!';
     speakText(greet, { ...audioSettings, voiceGender: newGender }, () => setIsPlayingAudio(true), () => setIsPlayingAudio(false));
   };
 
@@ -152,11 +152,11 @@ export default function App() {
 
     const cleanInput = saidText.replace(/[\u064B-\u065F]/g, '').trim();
     const isCorrect = currentNumItem.accept?.some((acc) => cleanInput.includes(acc));
+    const isGirl = selectedChar === 'girl';
 
     if (isCorrect) {
       playMagicChime();
       triggerConfetti(45);
-      const isGirl = selectedChar === 'girl';
 
       setStatusMsg(isGirl ? 'أَحْسَنْتِ! 🌟 إِجَابَةٌ صَحِيحَةٌ' : 'أَحْسَنْتَ! 🌟 إِجَابَةٌ صَحِيحَةٌ');
       setStatusType('ok');
@@ -164,15 +164,14 @@ export default function App() {
       setCanProceed(true);
 
       const praiseText = isGirl
-        ? 'أَحْسَنْتِ ، مُمْتَازَةٌ ، رَائِعٌ يَا بَطَلَة'
-        : 'أَحْسَنْتَ ، مُمْتَازٌ يَا بَطَلْ';
+        ? 'أَحْسَنْتِ! مُمْتَازَةٌ! رَائِعٌ يَا بَطَلَةُ!'
+        : 'أَحْسَنْتَ! مُمْتَازٌ! رَائِعٌ يَا بَطَلُ!';
 
       speakText(praiseText, audioSettings, () => setIsPlayingAudio(true), () => setIsPlayingAudio(false));
     } else {
       if (nextAttempts < 3) {
         const remaining = 3 - nextAttempts;
-        const isGirl = selectedChar === 'girl';
-        setStatusMsg(`❌ حَاوِلْ مُجَدَّداً! (بَقِيَتْ ${remaining} مُحَاوَلات)`);
+        setStatusMsg(isGirl ? `❌ حَاوِلِي مُجَدَّدًا! (بَقِيَتْ ${remaining} مُحَاوَلَات)` : `❌ حَاوِلْ مُجَدَّدًا! (بَقِيَتْ ${remaining} مُحَاوَلَات)`);
         setStatusType('bad');
         setHintMsg('اضغط «اسمع» مجدداً ثم تكلم 🎤');
 
@@ -184,12 +183,16 @@ export default function App() {
       } else {
         // Exceeded 3 attempts
         setMistakes((prev) => [...prev, { num: currentNumItem, said: saidText }]);
-        setStatusMsg(`الجَوَابُ الصَّحِيحُ: ${currentNumItem.w} — سَنُرَاجِعُهُ لاَحِقاً 📝`);
+        setStatusMsg(`الجَوَابُ الصَّحِيحُ: ${currentNumItem.w} — سَنُرَاجِعُهُ لاَحِقًا 📝`);
         setStatusType('bad');
         setCanProceed(true);
         setHintMsg('اضغط «التالي» للمتابعة ➜');
 
-        speakText(`الْجَوَابُ الصَّحِيحُ هُوَ ${currentNumItem.s}. سَنُرَاجِعُهُ لاَحِقاً`, audioSettings, () => setIsPlayingAudio(true), () => setIsPlayingAudio(false));
+        const solutionText = isGirl
+          ? `الْجَوَابُ الصَّحِيحُ هُوَ ${currentNumItem.s}، سَنُرَاجِعُهُ مَعًا فِي النِّهَايَةِ.`
+          : `الْجَوَابُ الصَّحِيحُ هُوَ ${currentNumItem.s}، سَنُرَاجِعُهُ مَعًا فِي النِّهَايَةِ.`;
+
+        speakText(solutionText, audioSettings, () => setIsPlayingAudio(true), () => setIsPlayingAudio(false));
       }
     }
   };
@@ -296,15 +299,29 @@ export default function App() {
       speakText(nextItem.s, audioSettings, () => setIsPlayingAudio(true), () => setIsPlayingAudio(false));
     } else {
       // Completed current level
+      const isGirl = selectedChar === 'girl';
       if (mistakes.length > 0) {
         setScreen('review');
-        speakText('هَيَّا نُرَاجِعُ الأَعْدَادَ الَّتِي تَحْتَاجُ تَدْرِيباً أِكْثَرَ', audioSettings, () => setIsPlayingAudio(true), () => setIsPlayingAudio(false));
+        speakText('هَيَّا نُرَاجِعْ مَعًا الأَعْدَادَ الَّتِي تَحْتَاجُ إِلَى مَزِيدٍ مِنَ التَّدْرِيبِ.', audioSettings, () => setIsPlayingAudio(true), () => setIsPlayingAudio(false));
       } else {
         setScreen('final');
         playMagicChime();
-        const finalPraise = currentLevel === 1
-          ? 'أَحْسَنْتَ! تَعَلَّمْتَ الأَعْدَادَ مِنْ وَاحِدٍ إِلَى عَشَرَةٍ!'
-          : 'رَائِعٌ! تَعَلَّمْتَ الْعَدَّ عَدَداً عَدَداً حَتَّى الْمِئَةِ!';
+        const finalPraise =
+          currentLevel === 1
+            ? isGirl
+              ? 'أَحْسَنْتِ! تَعَلَّمْتِ الأَعْدَادَ مِنْ وَاحِدٍ إِلَى عَشَرَةٍ بِنَجَاحٍ!'
+              : 'أَحْسَنْتَ! تَعَلَّمْتَ الأَعْدَادَ مِنْ وَاحِدٍ إِلَى عَشَرَةٍ بِنَجَاحٍ!'
+            : currentLevel === 2
+            ? isGirl
+              ? 'رَائِعٌ جِدًّا! تَعَلَّمْتِ الْعَدَّ بِالْعَشَرَاتِ حَتَّى الْمِئَةِ!'
+              : 'رَائِعٌ جِدًّا! تَعَلَّمْتَ الْعَدَّ بِالْعَشَرَاتِ حَتَّى الْمِئَةِ!'
+            : currentLevel === 3
+            ? isGirl
+              ? 'مُذْهِلٌ وَمُبْدِعٌ! تَعَلَّمْتِ الْعَدَّ بِالْمِئَاتِ حَتَّى الأَلْفِ!'
+              : 'مُذْهِلٌ وَمُبْدِعٌ! تَعَلَّمْتَ الْعَدَّ بِالْمِئَاتِ حَتَّى الأَلْفِ!'
+            : isGirl
+            ? 'بَطَلَةُ الْعَبَاقِرَةِ! اجْتَزْتِ مَرْحَلَةَ التَّحَدِّي بِنَجَاحٍ بَاهِرٍ!'
+            : 'بَطَلُ الْعَبَاقِرَةِ! اجْتَزْتَ مَرْحَلَةَ التَّحَدِّي بِنَجَاحٍ بَاهِرٍ!';
         speakText(finalPraise, audioSettings, () => setIsPlayingAudio(true), () => setIsPlayingAudio(false));
       }
     }
@@ -313,7 +330,7 @@ export default function App() {
   // Audio test modal handler
   const handleTestAudio = () => {
     setIsPlayingTest(true);
-    const testText = 'وَاحِدٌ، اِثْنَانِ، ثَلَاثَةٌ. نَطْقٌ صَوْتِيٌّ عَالِي الدِّقَّةِ وَسَلِيمٌ!';
+    const testText = 'وَاحِدٌ، اِثْنَانِ، ثَلَاثَةٌ. نُطْقٌ صَوْتِيٌّ عَالِي الدِّقَّةِ وَسَلِيمٌ.';
     speakText(
       testText,
       audioSettings,
